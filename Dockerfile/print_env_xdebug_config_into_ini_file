@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "PRINTING XDEBUG_CONFIG INTO Package '/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini'"
+cd /usr/local/etc/php/conf.d/
+printenv XDEBUG_CONFIG > docker-php-ext-xdebug-config-env.ini
+chown root:root docker-php-ext-xdebug-config-env.ini
+chmod u=rw,go=r docker-php-ext-xdebug-config-env.ini
+echo "RESTORE WP PATH AS CURRENT DIRECTORY ('/var/www/html') AND EXEC APACHE docker entrypoint (docker-entrypoint.sh apache2-foreground)"
+cd /var/www/html
+exec docker-entrypoint.sh apache2-foreground

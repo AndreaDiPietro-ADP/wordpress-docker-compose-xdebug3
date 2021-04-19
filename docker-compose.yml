@@ -1,0 +1,49 @@
+version: '3.1'
+
+services:
+
+  wordpress_multisite_solr:
+    container_name: wordpress_multisite_solr
+    build: ./Dockerfile/
+    restart: "no"
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: wordpress_multisite_solr_db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+      XDEBUG_CONFIG: |
+        xdebug.mode=debug,develop
+        xdebug.client_host=host.docker.internal
+        xdebug.client_port=9003
+        xdebug.idekey="phpdebugkey"
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        /* Multisite */
+        define('WP_ALLOW_MULTISITE', true );
+    volumes:
+      - ./shared_fs/wp_fs:/var/www/html
+    networks:
+      - development_network
+      
+  wordpress_multisite_solr_db:
+    container_name: wordpress_multisite_solr_db
+    image: mysql:5.7
+    restart: "no"
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./shared_fs/wp_db:/var/lib/mysql
+    networks:
+      - development_network
+
+networks:
+    development_network:
+        name: development_net
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
