@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   wordpress_multisite:
-    build: https://github.com/AndreaDiPietro-ADP/wordpress-dockerfile-development-purpose.git#docker-compose
+    build: https://github.com/AndreaDiPietro-ADP/wordpress-dockerfile-development-purpose.git#main
     restart: "no"
     ports:
       - 8081:80
