@@ -1,10 +1,25 @@
-version: '3.1'
+version: '3.9'
 
 services:
+      
+  wordpress_multisite_db:
+    image: mysql:5.7
+    deploy:
+      restart_policy:
+        condition: none
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ${PWD}/shared_fs/wp_db:/var/lib/mysql
 
   wordpress_multisite:
     build: https://github.com/AndreaDiPietro-ADP/wordpress-dockerfile-development-purpose.git#main
-    restart: "no"
+    deploy:
+      restart_policy:
+        condition: none
     ports:
       - 8081:80
     environment:
@@ -22,15 +37,5 @@ services:
         /* Multisite */
         define('WP_ALLOW_MULTISITE', true );
     volumes:
-      - ./shared_fs/wp_fs:/var/www/html
-      
-  wordpress_multisite_db:
-    image: mysql:5.7
-    restart: "no"
-    environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
-    volumes:
-      - ./shared_fs/wp_db:/var/lib/mysql
+      - ${PWD}/shared_fs/wp_fs:/var/www/html
+
