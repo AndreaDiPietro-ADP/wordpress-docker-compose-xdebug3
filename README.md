@@ -42,4 +42,4 @@ xdebug_info();
 ```
 to check if Xdebug configuration is properly set as wished...
 ![Xdebug3](https://user-images.githubusercontent.com/38914877/115424477-09ea1400-a1ff-11eb-8732-34ebd34c6f6a.jpg)
-if despite that not works, check whether a firewall is active and if it is silently dropping or refusing connection to the 9003 port or if the port is not free for Xdebug.
+If that does not works, check whether a firewall is active and if it is silently dropping or refusing connection to the 9003 port or if the port is not free for Xdebug.
