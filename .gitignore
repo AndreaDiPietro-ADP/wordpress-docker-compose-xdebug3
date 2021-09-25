@@ -39,3 +39,6 @@ intermediate
 .idea
 cache
 /vendor/
+
+# Docker Volume Bind
+/shared_fs/
