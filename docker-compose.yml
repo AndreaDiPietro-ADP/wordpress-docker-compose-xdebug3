@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
       
-  wordpress_multisite_db:
-    image: mysql:5.7
+  wp_db:
+    image: mysql:latest
     deploy:
       restart_policy:
         condition: none
@@ -11,27 +11,34 @@ services:
       MYSQL_DATABASE: exampledb
       MYSQL_USER: exampleuser
       MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      #MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_ROOT_PASSWORD: examplerootpwd
     volumes:
       - ${PWD}/shared_fs/wp_db:/var/lib/mysql
 
-  wordpress_multisite:
+  wp:
     build: https://github.com/AndreaDiPietro-ADP/wordpress-dockerfile-development-purpose.git#main
     deploy:
       restart_policy:
         condition: none
     ports:
       - 8081:80
+    depends_on:
+      - wp_db
     environment:
-      WORDPRESS_DB_HOST: wordpress_multisite_db
+      WORDPRESS_DB_HOST: wp_db
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
       XDEBUG_CONFIG: |
-        xdebug.mode=debug,develop
+        #your host gateway ip, for example in Docker Desktop for Mac
         xdebug.client_host=host.docker.internal
+        # or, as stated container network configuration for docker on Linux, for example 
+        #xdebug.client_host=192.168.3.1
         xdebug.client_port=9003
         xdebug.idekey="phpdebugkey"
+        #xdebug.discover_client_host = true 
+      XDEBUG_MODE: "debug,develop"
       WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
         /* Multisite */
