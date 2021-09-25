@@ -32,7 +32,7 @@ environment:
         xdebug.idekey="phpdebugkey"
 ```
 
-```host.docker.internal``` should work both on Windows and MacOS DockerDesktop, anyway it can be replaced with the the internal IP address used by your host machine.
+```host.docker.internal``` should work both on Windows and MacOS DockerDesktop, anyway it can be replaced with the internal IP address used by your host machine.
 
 ## IDE Settings
 IDE setting is quite easy and straight-forward,
